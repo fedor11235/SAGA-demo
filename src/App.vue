@@ -29,6 +29,8 @@
 }
 
 .wrapper-navbar {
+  width: 100%;
+  background-color: #f0f0f0;
   .navbar {
     padding: 20px 16px;
     max-width: 1322px;
@@ -36,7 +38,6 @@
     margin-right: auto;
     box-sizing: border-box;
     transition: 0.3s top ease;
-    background-color: #f0f0f0;
     width: 100%;
   
     display: flex;

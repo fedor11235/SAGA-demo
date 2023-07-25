@@ -39,3 +39,13 @@ h1, .h1 {
   font-weight: 700;
   line-height: 3rem;
 }
+
+.container {
+  padding: 20px 16px;
+  max-width: 1322px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  transition: 0.3s top ease;
+  width: 100%;
+}

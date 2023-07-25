@@ -26,8 +26,8 @@
         </ol>
       </div>
       <div class="row">
-        <div class="model">
-
+        <div ref="modelContainer" class="model">
+          <canvas ref="canvas" width="500" height="719" ></canvas>
         </div>
         <div class="description">
           <h1 class="product-name js-product-name" itemprop="name">
@@ -71,7 +71,22 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { createScene } from '@/scenes/MyFirstScene.ts'
+
+const modelContainer = ref()
+const canvas = ref()
+
+onMounted(() => {
+  if (modelContainer.value) {
+    if (canvas.value) {
+      canvas.value.width = modelContainer.value.getBoundingClientRect().width
+      createScene(canvas.value)
+    }
+  }
+})
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
