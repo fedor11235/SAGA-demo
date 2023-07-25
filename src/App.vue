@@ -25,7 +25,7 @@
 
 <style lang="scss">
 #app {
-  text-align: center;
+  // text-align: center;
 }
 
 .wrapper-navbar {
