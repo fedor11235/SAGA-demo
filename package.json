@@ -13,6 +13,7 @@
     "babylon-fbx-loader": "^1.0.9",
     "core-js": "^3.8.3",
     "fbx2gltf": "^0.9.7-p1",
+    "pinia": "^2.1.4",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3"

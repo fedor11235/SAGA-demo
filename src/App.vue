@@ -726,29 +726,20 @@
                           <div class="js-product-slick-images_top slick-initialized slick-slider">
                             <div class="slick-list draggable">
                               <div class="slick-track" style="opacity: 1; width: 6130px;">
-                                <div class="slick-slide slick-current slick-active" data-slick-index="0"
+                                <div class="slick-slide slick-active" data-slick-index="0"
                                   aria-hidden="false"
                                   style="width: 613px; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;">
                                   <div>
                                     <div class="image-wrap" style="width: 100%; display: inline-block;">
                                       <div class="product-cover js-product-modal" ref="productCover">
-                                        <canvas ref="canvas"></canvas>
-                                        <img class="img-fluid js-qv-product-cover"
-                                          src="Диван SAGA 020_013_files/divan-saga-020-013.jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image">
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="slick-slide" data-slick-index="1" aria-hidden="true"
-                                  style="width: 613px; position: relative; left: -613px; top: 0px; z-index: 998; opacity: 0;"
-                                  tabindex="-1">
-                                  <div>
-                                    <div class="image-wrap" style="width: 100%; display: inline-block;">
-                                      <div class="product-cover js-product-modal">
-                                        <img class="img-fluid js-qv-product-cover"
-                                          src="Диван SAGA 020_013_files/divan-saga-020-013(1).jpg"
+                                        <div v-if="slickCurrent === 5" class="canvas-cont">
+                                          <canvas ref="canvas"></canvas>
+                                          <div v-if="rootStore.loader" class="canvas-loader">
+                                            <div class="canvas-spiner"></div>
+                                          </div>
+                                        </div>
+                                        <img class="img-fluid"
+                                          :src="`Диван SAGA 020_013_files/${imgMain}`"
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image">
                                       </div>
@@ -762,12 +753,13 @@
                           <div class="product-images pr-2 pl-2">
                             <div
                               class="js-product-slick-images_bottom slick-dark thumb-list slick-initialized slick-slider">
-                              <button class="slick-prev slick-arrow" aria-label="Previous" type="button"
+                              <button @click="handkerBeforeSlide" class="slick-prev slick-arrow" aria-label="Previous" type="button"
                                 style="display: block;">Previous</button>
                               <div class="slick-list draggable">
                                 <div class="slick-track"
+                                  ref="slider"
                                   style="opacity: 1; width: 3312px; transform: translate3d(-552px, 0px, 0px);">
-                                  <div class="slick-slide slick-cloned" data-slick-index="-4" aria-hidden="true"
+                                  <div @click="handlerMoveSlider(1, 0)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 1}]"  data-slick-index="-4" aria-hidden="true"
                                     style="width: 138px;" tabindex="-1">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54339-medium_default/divan-saga-020-013.jpg"
@@ -777,7 +769,7 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true"
+                                  <div @click="handlerMoveSlider(2, -138)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 2}]" 
                                     style="width: 138px;" tabindex="-1">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/64283-medium_default/divan-saga-020-013.jpg"
@@ -786,7 +778,7 @@
                                         <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(11).jpg"
                                           alt="" title="" itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true"
+                                  <div @click="handlerMoveSlider(3, -274)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 3}]" 
                                     style="width: 138px;" tabindex="-1">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54340-medium_default/divan-saga-020-013.jpg"
@@ -796,7 +788,7 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true"
+                                  <div @click="handlerMoveSlider(4, -412)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 4}]" 
                                     style="width: 138px;" tabindex="-1">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54345-medium_default/divan-saga-020-013.jpg"
@@ -806,8 +798,7 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-current slick-active" data-slick-index="0"
-                                    aria-hidden="false" style="width: 138px;">
+                                  <div @click="handlerMoveSlider(5, -550)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 5}]" style="width: 138px;">
                                     <div><a href="javascript:;" class="thumb-item js-thumb  selected " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54346-medium_default/divan-saga-020-013.jpg"
                                         data-image-large-src="https://theidea.ru/54346-large_default/divan-saga-020-013.jpg"
@@ -816,7 +807,7 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-active" data-slick-index="1" aria-hidden="false"
+                                  <div @click="handlerMoveSlider(6, -684)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 6}]" 
                                     style="width: 138px;">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54347-medium_default/divan-saga-020-013.jpg"
@@ -826,7 +817,7 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-active" data-slick-index="2" aria-hidden="false"
+                                  <div @click="handlerMoveSlider(7, -818)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 7}]" 
                                     style="width: 138px;">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54341-medium_default/divan-saga-020-013.jpg"
@@ -836,7 +827,7 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide slick-active" data-slick-index="3" aria-hidden="false"
+                                  <div @click="handlerMoveSlider(8, -952)" :class="['slick-slide', 'slick-cloned', {'slick-current': slickCurrent === 8}]" 
                                     style="width: 138px;">
                                     <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
                                         data-image-medium-src="https://theidea.ru/54342-medium_default/divan-saga-020-013.jpg"
@@ -846,166 +837,8 @@
                                           alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
                                           itemprop="image"></a></div>
                                   </div>
-                                  <div class="slick-slide" data-slick-index="4" aria-hidden="true" style="width: 138px;"
-                                    tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54343-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54343-large_default/divan-saga-020-013.jpg"
-                                        data-index="4" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(18).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide" data-slick-index="5" aria-hidden="true" style="width: 138px;"
-                                    tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54344-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54344-large_default/divan-saga-020-013.jpg"
-                                        data-index="5" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(19).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide" data-slick-index="6" aria-hidden="true" style="width: 138px;"
-                                    tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54339-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54339-large_default/divan-saga-020-013.jpg"
-                                        data-index="6" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(10).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide" data-slick-index="7" aria-hidden="true" style="width: 138px;"
-                                    tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/64283-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/64283-large_default/divan-saga-020-013.jpg"
-                                        data-index="7" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(11).jpg"
-                                          alt="" title="" itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide" data-slick-index="8" aria-hidden="true" style="width: 138px;"
-                                    tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54340-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54340-large_default/divan-saga-020-013.jpg"
-                                        data-index="8" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(12).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide" data-slick-index="9" aria-hidden="true" style="width: 138px;"
-                                    tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54345-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54345-large_default/divan-saga-020-013.jpg"
-                                        data-index="9" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(13).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="10" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb  selected " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54346-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54346-large_default/divan-saga-020-013.jpg"
-                                        data-index="0" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(14).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="11" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54347-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54347-large_default/divan-saga-020-013.jpg"
-                                        data-index="1" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(15).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="12" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54341-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54341-large_default/divan-saga-020-013.jpg"
-                                        data-index="2" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(16).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="13" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54342-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54342-large_default/divan-saga-020-013.jpg"
-                                        data-index="3" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(17).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="14" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54343-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54343-large_default/divan-saga-020-013.jpg"
-                                        data-index="4" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(18).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="15" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54344-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54344-large_default/divan-saga-020-013.jpg"
-                                        data-index="5" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(19).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="16" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54339-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54339-large_default/divan-saga-020-013.jpg"
-                                        data-index="6" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(10).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="17" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/64283-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/64283-large_default/divan-saga-020-013.jpg"
-                                        data-index="7" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(11).jpg"
-                                          alt="" title="" itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="18" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54340-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54340-large_default/divan-saga-020-013.jpg"
-                                        data-index="8" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(12).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
-                                  <div class="slick-slide slick-cloned" data-slick-index="19" aria-hidden="true"
-                                    style="width: 138px;" tabindex="-1">
-                                    <div><a href="javascript:;" class="thumb-item js-thumb " data-k="1"
-                                        data-image-medium-src="https://theidea.ru/54345-medium_default/divan-saga-020-013.jpg"
-                                        data-image-large-src="https://theidea.ru/54345-large_default/divan-saga-020-013.jpg"
-                                        data-index="9" style="width: 100%; display: inline-block;" tabindex="-1">
-                                        <img class="img-fluid" src="Диван SAGA 020_013_files/divan-saga-020-013(13).jpg"
-                                          alt="Диван SAGA 020/013 5 кат." title="Диван SAGA 020/013 5 кат."
-                                          itemprop="image"></a></div>
-                                  </div>
                                 </div>
-                              </div><button class="slick-next slick-arrow" aria-label="Next" type="button"
+                              </div><button @click="handkerNextSlide" class="slick-next slick-arrow" aria-label="Next" type="button"
                                 style="display: block;">Next</button>
                             </div>
                           </div>
@@ -1269,21 +1102,11 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
-
-
-
                 <div class="wrapper it_VKHGNEDECXQO container-fluid">
                   <div class="row it_TURXZQONNHUQ ">
                     <div class="it_JFFGDQVVKDKN col-12 col-sm-12     "></div>
                   </div>
                 </div>
-
-
-
                 <div id="product-modal" class="modal modal-close-inside" tabindex="-1" role="dialog">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -1315,7 +1138,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false"
+                              <div class="slick-slide slick-active" data-slick-index="0" aria-hidden="false"
                                 style="width: 0px;">
                                 <div>
                                   <div class="slick-slide" style="width: 100%; display: inline-block;" aria-hidden="true">
@@ -1928,62 +1751,78 @@
           <div class="col site-footer__copyright">
             © 2023 - The IDEA — фабрика мебели
           </div>
-
-
         </div>
       </footer>
     </main>
-
-    <a href="https://theidea.ru/uglovye-divany/4390-divan-saga-020-013.html#" id="ui-to-top" class="ui-to-top"></a>
-    <div
-      style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;">
-      <div
-        style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;">
-      </div>
-      <div class="g-recaptcha-bubble-arrow"
-        style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;">
-      </div>
-      <div class="g-recaptcha-bubble-arrow"
-        style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;">
-      </div>
-      <div style="z-index: 2000000000; position: relative;"><iframe
-          title="текущую проверку reCAPTCHA можно пройти в течение ещё двух минут"
-          src="Диван SAGA 020_013_files/bframe.html" name="c-kinnplqx8hp6" frameborder="0" scrolling="no"
-          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
-          style="width: 100%; height: 100%;"></iframe></div>
-    </div>
-    <div
-      style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;">
-      <div
-        style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;">
-      </div>
-      <div class="g-recaptcha-bubble-arrow"
-        style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;">
-      </div>
-      <div class="g-recaptcha-bubble-arrow"
-        style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;">
-      </div>
-      <div style="z-index: 2000000000; position: relative;"><iframe
-          title="текущую проверку reCAPTCHA можно пройти в течение ещё двух минут"
-          src="Диван SAGA 020_013_files/bframe(1).html" name="c-i1yetz2hn0ay" frameborder="0" scrolling="no"
-          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
-          style="width: 100%; height: 100%;"></iframe></div>
-    </div>
   </body>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { createScene } from '@/scenes/MyFirstScene.ts'
+import { useRootStore } from "@/store/root";
+
+const rootStore = useRootStore();
+
+let offsetSlid = -552;
+
+const slickCurrent = ref(5)
 
 const productCover = ref()
 const canvas = ref()
+const slider = ref()
+
+const imgMain = computed(()=> {
+  if(slickCurrent.value === 1) {
+    return 'divan-saga-020-013(10).jpg'
+  }
+  if(slickCurrent.value === 2) {
+    return 'divan-saga-020-013(11).jpg'
+  }
+  if(slickCurrent.value === 3) {
+    return 'divan-saga-020-013(12).jpg'
+  }
+  if(slickCurrent.value === 4) {
+    return 'divan-saga-020-013(13).jpg'
+  }
+  if(slickCurrent.value === 5) {
+    return 'divan-saga-020-013(14).jpg'
+  }
+  if(slickCurrent.value === 6) {
+    return 'divan-saga-020-013(15).jpg'
+  }
+  if(slickCurrent.value === 7) {
+    return 'divan-saga-020-013(16).jpg'
+  }
+  if(slickCurrent.value === 8) {
+    return 'divan-saga-020-013(17).jpg'
+  }
+  return 'divan-saga-020-013(1).jpg'
+})
 
 function setResize() {
   if (productCover.value && canvas.value) {
     canvas.value.width = productCover.value.getBoundingClientRect().width
     canvas.value.height = 613
   }
+}
+
+function handlerMoveSlider (slickNumber, mode: number) {
+  slickCurrent.value = slickNumber
+  offsetSlid = mode
+  slider.value.style.transform = `translate3d(${offsetSlid}px, 0px, 0px)`;
+}
+
+function handkerBeforeSlide () {
+  if(slickCurrent.value === 1) return
+  offsetSlid += 134
+  slider.value.style.transform = `translate3d(${offsetSlid}px, 0px, 0px)`;
+}
+
+function handkerNextSlide () {
+  if(slickCurrent.value >= 7) return
+  offsetSlid -= 134
+  slider.value.style.transform = `translate3d(${offsetSlid}px, 0px, 0px)`;
 }
 
 onMounted(() => {
@@ -1995,4 +1834,51 @@ onMounted(() => {
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.slick-track  {
+  transition: transform .3s;
+}
+.canvas-cont {
+  display: flex;
+}
+.canvas-loader {
+  display: flex;
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-spiner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite
+}
+.canvas-spiner::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 5px solid black;
+  animation: prixClipFix 2s linear infinite ;
+}
+
+@keyframes rotate {
+  100%   {transform: rotate(360deg)}
+}
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+}
+</style>
