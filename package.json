@@ -8,17 +8,22 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@babylonjs/core": "^6.13.0",
     "@babylonjs/gui": "^6.13.0",
     "babylon-fbx-loader": "^1.0.9",
+    "babylonjs": "^6.13.0",
+    "babylonjs-loaders": "^6.13.0",
     "core-js": "^3.8.3",
     "fbx2gltf": "^0.9.7-p1",
     "pinia": "^2.1.4",
+    "three": "^0.154.0",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
+    "@babylonjs/core": "^6.13.0",
+    "@babylonjs/loaders": "^6.13.0",
+    "@types/three": "^0.154.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
