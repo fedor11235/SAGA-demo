@@ -25,7 +25,7 @@ const createScene = (canvas: any, mapPath: string, texturePath: string) => {
 
       // Create Object
       loaderTexture = new THREE.TextureLoader()
-      const normalTexture = loaderTexture.load(`map/${mapPath}`)
+      const normalTexture = loaderTexture.load(`normal/${mapPath}`)
       const texture = loaderTexture.load(`textures/${texturePath}`)
       loaderModel = new GLTFLoader()
       
