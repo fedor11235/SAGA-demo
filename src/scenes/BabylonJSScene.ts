@@ -1,9 +1,9 @@
 import { Engine, Scene, ArcRotateCamera, StandardMaterial, SceneLoader, Vector3, Color4, Texture, Color3, HemisphericLight } from "@babylonjs/core";
 import { FBXLoader } from 'babylon-fbx-loader';
-import { useRootStore } from "@/store/root";
+// import { useRootStore } from "@/store/root";
 
 const createScene = (canvas: any) => {
-  const rootStore = useRootStore();
+  // const rootStore = useRootStore();
 
   const engine = new Engine(canvas);
   const scene = new Scene(engine);
@@ -33,7 +33,7 @@ const createScene = (canvas: any) => {
     camera.target = newMeshes[0] as any; 
   });
 
-  rootStore.loader = false;
+  // rootStore.loader = false;
 
   // const box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
   // const material = new StandardMaterial("box-material", scene);
