@@ -6,8 +6,7 @@
       <div class="btns">
         <h3>Нормали</h3>
         <img src="normal/0_N.jpg" @click="handlerChangeMap('0_N.jpg')" alt="mask" width="80" height="80">
-        <img src="normal/1_N.jpg" @click="handlerChangeMap('1_N.jpg')" alt="mask" width="80" height="80">
-        <img src="normal/2_N.jpg" @click="handlerChangeMap('2_N.jpg')" alt="mask" width="80" height="80">
+        <img src="textures/1_N.jpg" @click="handlerChangeMap('1_N.jpg')" alt="mask" width="80" height="80">
       </div>
       <div class="btns">
         <h3>Текстуры</h3>
@@ -15,6 +14,7 @@
         <img src="textures/1_T.jpg" @click="handlerChangeTexture('1_T.jpg')" alt="mask" width="80" height="80">
         <img src="textures/2_T.jpg" @click="handlerChangeTexture('2_T.jpg')" alt="mask" width="80" height="80">
         <img src="textures/3_T.jpg" @click="handlerChangeTexture('3_T.jpg')" alt="mask" width="80" height="80">
+        <img src="textures/4_T.jpg" @click="handlerChangeTexture('4_T.jpg')" alt="mask" width="80" height="80">
       </div>
     </div>
   </div>
