@@ -10,9 +10,9 @@
 
 <body>
   <!-- The loading element overlays all else until the model is loaded, at which point we remove this element from the DOM -->
-  <!-- <div class="loading" id="js-loader">
+  <div class="loading" id="js-loader">
     <div class="loader"></div>
-  </div> -->
+  </div>
   <!-- These toggle the the different parts of the chair that can be edited, note data-option is the key that links to the name of the part in the 3D file -->
   <!-- The canvas element is used to draw the 3D scene -->
   <canvas id="c"></canvas>
@@ -69,7 +69,7 @@
   var matsWithTexNames = new Array(); // содержит имена для поиска
   const mainScene = new THREE.Scene()
 
-  // const LOADER = document.getElementById('js-loader');
+  const LOADER = document.getElementById('js-loader');
   let index = 1;
 
 
@@ -150,7 +150,7 @@
       const loader = new GLTFLoader();
       await loader.load('models/' + modelName + '/scene.gltf', gltf => {
         const model = gltf.scene;
-        // LOADER.style.display = 'none';
+        LOADER.style.display = 'none';
         model.traverse( async child => {
           if (child.isMesh) {
             if (!matsWithTexNames.includes(child.material.name)) {
