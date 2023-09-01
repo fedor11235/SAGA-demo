@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THREE JS - Lesson</title>
+</head>
+
+<body>
+  <!-- The loading element overlays all else until the model is loaded, at which point we remove this element from the DOM -->
+  <div class="loading" id="js-loader">
+    <div class="loader"></div>
+  </div>
+  <!-- These toggle the the different parts of the chair that can be edited, note data-option is the key that links to the name of the part in the 3D file -->
+  <!-- The canvas element is used to draw the 3D scene -->
+  <canvas id="c"></canvas>
+
+  <div id="model-info">
+  </div>
+
+  <div class="controls">
+    <!-- This tray will be filled with colors via JS, and the ability to slide this panel will be added in with a lightweight slider script (no dependency used for this) -->
+    <div id="js-tray" class="tray">
+      <div id="js-tray-slide" class="tray__slide"></div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script type="importmap">
+  {
+      "imports": {
+          "three": "https://unpkg.com/three@0.139.0/build/three.module.js",
+          "OrbitControls": "https://unpkg.com/three@0.139.0/examples/jsm/controls/OrbitControls.js",
+          "GLTFLoader": "https://unpkg.com/three@0.139.0/examples/jsm/loaders/GLTFLoader.js",
+          "RectAreaLightHelper": "https://unpkg.com/three@0.139.0/examples/jsm/helpers/RectAreaLightHelper.js",
+          "RectAreaLightUniformsLib": "https://unpkg.com/three@0.139.0/examples/jsm/lights/RectAreaLightUniformsLib.js"
+      }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'OrbitControls';
+  import { GLTFLoader } from 'GLTFLoader';
+  import { RectAreaLightHelper } from 'RectAreaLightHelper'
+  import { RectAreaLightUniformsLib } from 'RectAreaLightUniformsLib';
+
+  const modelName = location.search.split('model=')[1];
+
+  const TRAY = document.getElementById('js-tray-slide');
+  const BTNS = document.getElementById('model-info');
+
+  //сюда записывается массив кнопок
+  let btnsTexture;
+
+  //структура для массива
+  function matInfo(name, mat, texVars) {
+    this.name = name;
+    this.mat = mat;
+    this.texVars = new Array();
+    this.texVars.push(...texVars);
+  }
+
+  var matsWithTex = new Array(); // содержит name, mat, и массив текстур texVars
+  var matsWithTexNames = new Array(); // содержит имена для поиска
+  const mainScene = new THREE.Scene()
+
+  const LOADER = document.getElementById('js-loader');
+  let index = 1;
+
+
+  //для определения существует ли файл
+  const getFile = (url) => {
+    let response = fetch(url);
+    return response.status;
+  }
+  //возвращает текстуру
+  const GiveMeTexture = (url) => {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(url)
+
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.flipY = false;
+    return texture
+  }
+  //проверяет, есть ли в массиве элемент
+  function contains(arr, elem) {
+    let f = typeof elem == 'function' ? elem : (i => i === elem);
+    return arr.findIndex(f) != -1;
+  }
+  function clickTexture(event) {
+    const textureActiveName = event.target.dataset.name
+    const textureActiveIndex = event.target.dataset.index
+    for(const btn of btnsTexture) {
+      if(btn.dataset.name == textureActiveName) {
+        btn.classList.remove("model-info__img_active")
+      }
+    }
+    event.target.classList.add('model-info__img_active');
+    const matActive = matsWithTex.filter(mat => mat.name === textureActiveName)[0]
+    const textureActiveObj = matActive.texVars[Number(textureActiveIndex) - 1]
+    matActive.mat.map = textureActiveObj;
+    matActive.mat.needsUpdate = true;
+  }
+
+  function showMats(mats) {
+    let btnsHtml = ''
+    let btnsHtmlTemp = ''
+    for (const mat of mats) {
+      btnsHtmlTemp = `<div class="model-info__item"><div class="model-info__title">${mat.name}</div>`
+      for (let i = 1; i <= mat.texVars.length; i++) {
+        if(i === 1) {
+          btnsHtmlTemp += `<img class="model-info__img model-info__img_active" data-index="1" data-name="${mat.name}" src="models/model/textures/${mat.name}/${mat.name}_baseColor${i}.jpeg" height="24" width="24"/>`
+        } else {
+          btnsHtmlTemp += `<img class="model-info__img" data-index="${i}" data-name="${mat.name}" src="models/model/textures/${mat.name}/${mat.name}_baseColor${i}.jpeg" height="24" width="24"/>`
+        }
+      }
+      btnsHtmlTemp += '</div>'
+      btnsHtml += btnsHtmlTemp
+    }
+    BTNS.innerHTML = btnsHtml
+    btnsTexture = BTNS.getElementsByClassName('model-info__img');
+    for(const btn of btnsTexture) {
+      btn.addEventListener('click', clickTexture)
+    }
+  }
+
+  async function init() {
+    let container = document.querySelector('.container');
+
+    //сцена
+    {
+      mainScene.background = new THREE.Color("#E2DFE1");
+      let plain; //пол
+      {
+        plain = new THREE.Mesh(
+          new THREE.PlaneGeometry(1000, 1000),
+          new THREE.MeshBasicMaterial({ color: "#E2DFE1" })
+        )
+        plain.reciveShadow = true;
+        plain.position.set(0, -1, 0)
+        plain.rotateX(-Math.PI / 2);
+        mainScene.add(plain)
+      }
+      //собираем инфу о модели и загружаем на сцену
+      const loader = new GLTFLoader();
+      await loader.load('models/' + modelName + '/scene.gltf', gltf => {
+        const model = gltf.scene;
+        LOADER.remove();
+        model.traverse( async child => {
+          if (child.isMesh) {
+            if (!matsWithTexNames.includes(child.material.name)) {
+              matsWithTexNames.push(child.material.name);
+              let find = true;
+              let i = 1;
+              let textureArray = new Array();
+              //ищем все вариантики
+              while (find) {
+                if (child.material.map != null) {
+                  const url = 'models/' + modelName + '/textures/' + child.material.name + '/' + child.material.name + '_baseColor' + i + '.jpeg'
+
+                  var request = new XMLHttpRequest();
+                  request.open("GET", url, false); // `false` makes the request synchronous
+                  request.send(null);
+
+                  if (request.status === 200) {
+                    const tempTexture =  GiveMeTexture(url);
+                    i = i + 1;
+                    textureArray.push(tempTexture)
+                  } else {
+                    find = false;
+                  }
+
+                } else {
+                  find = false;
+                }
+              }
+              matsWithTex.push(new matInfo(child.material.name, child.material, textureArray));
+            }
+          }
+        });
+
+        showMats(matsWithTex)
+
+        mainScene.add(model);
+      })
+
+      //освещение
+      {
+        {
+          const light = new THREE.DirectionalLight(0xffffff, 1)
+          light.position.set(-2, 0, 10)
+          light.lookAt(0, -1, 0)
+          mainScene.add(light)
+        }
+
+        {
+          const light = new THREE.DirectionalLight(0xffffff, 1)
+          light.position.set(2, 0, 5)
+          light.lookAt(0, 1, 0)
+          mainScene.add(light)
+        }
+
+        RectAreaLightUniformsLib.init();
+        {
+          const rectLight = new THREE.RectAreaLight(0xffffff, 1, 100, 100);
+          rectLight.position.set(-10, 0, 0)
+          rectLight.rotation.y = Math.PI + Math.PI / 4;
+          mainScene.add(rectLight)
+        }
+
+        {
+          const rectLight = new THREE.RectAreaLight(0xffffff, 1, 100, 100);
+          rectLight.position.set(10, 0, 0)
+          rectLight.rotation.y = Math.PI - Math.PI / 4;
+          mainScene.add(rectLight)
+        }
+
+      }
+    }
+
+    //камера
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+    camera.position.set(0, 0.5, 1)
+
+    //рендер
+    const canvas = document.querySelector('#c');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    document.body.appendChild(renderer.domElement);
+
+    //OrbitControls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 5;
+    controls.enableDamping = true;
+
+    function resizeRendererToDisplaySize(renderer) {
+      const canvas = renderer.domElement;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const canvasPixelWidth = canvas.width / window.devicePixelRatio;
+      const canvasPixelHeight = canvas.height / window.devicePixelRatio;
+      const needResize = canvasPixelWidth !== width || canvasPixelHeight !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
+    }
+
+    // Animate
+    function animate() {
+      renderer.render(mainScene, camera);
+      requestAnimationFrame(animate);
+
+      if (resizeRendererToDisplaySize(renderer)) {
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+      controls.update();
+    }
+    animate()
+  }
+  init()
+</script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  #model-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+    position: fixed;
+    top: 2vh;
+    right: 2vw;
+  }
+
+  .model-info__item {
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+  }
+
+  .model-info__title {
+    width: 130px;
+  }
+
+  .model-info__img {
+    cursor: pointer;
+    border: 5px solid transparent;
+  }
+
+  .model-info__img:hover {
+    border: 5px solid #dfa946;
+    ;
+  }
+
+  .model-info__img_active {
+    border: 5px solid #dfa946;
+    ;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  .container {
+    width: 100%;
+    height: 100vh;
+  }
+
+  .loading {
+    position: fixed;
+    z-index: 50;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loader {
+    -webkit-perspective: 120px;
+    -moz-perspective: 120px;
+    -ms-perspective: 120px;
+    perspective: 120px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .loader::before {
+    content: "";
+    position: absolute;
+    left: 25px;
+    top: 25px;
+    width: 50px;
+    height: 50px;
+    background-color: #ff0000;
+    animation: flip 1s infinite;
+  }
+
+  @keyframes flip {
+    0% {
+      transform: rotate(0);
+    }
+
+    50% {
+      transform: rotateY(180deg);
+    }
+
+    100% {
+      transform: rotateY(180deg) rotateX(180deg);
+    }
+  }
+</style>
