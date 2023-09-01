@@ -1,0 +1,292 @@
+{
+	"asset":
+	{
+		"version": "2.0",
+		"generator": "Unreal Engine 5.2.1"
+	},
+	"scene": 0,
+	"accessors": [
+		{
+			"bufferView": 0,
+			"count": 774816,
+			"type": "SCALAR",
+			"componentType": 5125
+		},
+		{
+			"bufferView": 1,
+			"count": 138981,
+			"type": "VEC3",
+			"componentType": 5126,
+			"min": [ -1.23059869, 0.0372262895, -0.525627434 ],
+			"max": [ 1.52982843, 0.729307413, 1.27019894 ]
+		},
+		{
+			"bufferView": 2,
+			"count": 138981,
+			"type": "VEC3",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 3,
+			"count": 138981,
+			"type": "VEC4",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 4,
+			"count": 138981,
+			"type": "VEC2",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 5,
+			"count": 138981,
+			"type": "VEC2",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 6,
+			"count": 23412,
+			"type": "SCALAR",
+			"componentType": 5123
+		},
+		{
+			"bufferView": 7,
+			"count": 5074,
+			"type": "VEC3",
+			"componentType": 5126,
+			"min": [ -1.12286437, 5.01375944e-05, -0.417012334 ],
+			"max": [ 1.43881989, 0.040050257, 1.14366269 ]
+		},
+		{
+			"bufferView": 8,
+			"count": 5074,
+			"type": "VEC3",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 9,
+			"count": 5074,
+			"type": "VEC4",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 10,
+			"count": 5074,
+			"type": "VEC2",
+			"componentType": 5126
+		},
+		{
+			"bufferView": 11,
+			"count": 5074,
+			"type": "VEC2",
+			"componentType": 5126
+		}
+	],
+	"buffers": [
+		{
+			"uri": "divan.bin",
+			"byteLength": 11213168
+		}
+	],
+	"bufferViews": [
+		{
+			"buffer": 0,
+			"byteLength": 3099264,
+			"target": 34963
+		},
+		{
+			"buffer": 0,
+			"byteLength": 1667772,
+			"byteOffset": 3099264,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 1667772,
+			"byteOffset": 4767036,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 2223696,
+			"byteOffset": 6434808,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 1111848,
+			"byteOffset": 8658504,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 1111848,
+			"byteOffset": 9770352,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 46824,
+			"byteOffset": 10882200,
+			"target": 34963
+		},
+		{
+			"buffer": 0,
+			"byteLength": 60888,
+			"byteOffset": 10929024,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 60888,
+			"byteOffset": 10989912,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 81184,
+			"byteOffset": 11050800,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 40592,
+			"byteOffset": 11131984,
+			"target": 34962
+		},
+		{
+			"buffer": 0,
+			"byteLength": 40592,
+			"byteOffset": 11172576,
+			"target": 34962
+		}
+	],
+	"images": [
+		{
+			"uri": "textures/Nojki_MetallicRoughness.png"
+		},
+		{
+			"uri": "textures/Obivka/Obivka_baseColor1.jpeg"
+		},
+		{
+			"uri": "textures/Glam_normal_map_Linear.png"
+		},
+		{
+			"uri": "textures/Nojki/Nojki_baseColor1.jpeg"
+		},
+		{
+			"uri": "textures/idea_oak_normal.png"
+		}
+	],
+	"materials": [
+		{
+			"name": "Obivka",
+			"pbrMetallicRoughness":
+			{
+				"baseColorTexture":
+				{
+					"index": 0
+				},
+				"metallicFactor": 0,
+				"roughnessFactor": 1
+			},
+			"normalTexture":
+			{
+				"index": 1
+			}
+		},
+		{
+			"name": "Nojki",
+			"pbrMetallicRoughness":
+			{
+				"baseColorTexture":
+				{
+					"index": 2
+				},
+				"metallicRoughnessTexture":
+				{
+					"index": 3
+				}
+			},
+			"normalTexture":
+			{
+				"index": 4
+			}
+		}
+	],
+	"meshes": [
+		{
+			"name": "divan",
+			"primitives": [
+				{
+					"attributes":
+					{
+						"POSITION": 1,
+						"NORMAL": 2,
+						"TANGENT": 3,
+						"TEXCOORD_0": 4,
+						"TEXCOORD_1": 5
+					},
+					"indices": 0,
+					"material": 0
+				},
+				{
+					"attributes":
+					{
+						"POSITION": 7,
+						"NORMAL": 8,
+						"TANGENT": 9,
+						"TEXCOORD_0": 10,
+						"TEXCOORD_1": 11
+					},
+					"indices": 6,
+					"material": 1
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"mesh": 0
+		}
+	],
+	"samplers": [
+		{
+			"minFilter": 9987,
+			"magFilter": 9729
+		}
+	],
+	"scenes": [
+		{
+			"nodes": [ 0 ]
+		}
+	],
+	"textures": [
+		{
+			"name": "Obivka_baseColor1",
+			"sampler": 0,
+			"source": 1
+		},
+		{
+			"name": "Glam_normal_map_Linear",
+			"sampler": 0,
+			"source": 2
+		},
+		{
+			"name": "Nojki_baseColor1",
+			"sampler": 0,
+			"source": 3
+		},
+		{
+			"name": "Nojki_MetallicRoughness",
+			"sampler": 0,
+			"source": 0
+		},
+		{
+			"name": "idea_oak_normal",
+			"sampler": 0,
+			"source": 4
+		}
+	]
+}

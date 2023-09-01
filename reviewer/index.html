@@ -114,9 +114,9 @@
       btnsHtmlTemp = `<div class="model-info__item"><div class="model-info__title">${mat.name}</div>`
       for (let i = 1; i <= mat.texVars.length; i++) {
         if(i === 1) {
-          btnsHtmlTemp += `<img class="model-info__img model-info__img_active" data-index="1" data-name="${mat.name}" src="models/model/textures/${mat.name}/${mat.name}_baseColor${i}.jpeg" height="24" width="24"/>`
+          btnsHtmlTemp += `<img class="model-info__img model-info__img_active" data-index="1" data-name="${mat.name}" src="models/${modelName}//textures/${mat.name}/${mat.name}_baseColor${i}.jpeg" height="24" width="24"/>`
         } else {
-          btnsHtmlTemp += `<img class="model-info__img" data-index="${i}" data-name="${mat.name}" src="models/model/textures/${mat.name}/${mat.name}_baseColor${i}.jpeg" height="24" width="24"/>`
+          btnsHtmlTemp += `<img class="model-info__img" data-index="${i}" data-name="${mat.name}" src="models/${modelName}/textures/${mat.name}/${mat.name}_baseColor${i}.jpeg" height="24" width="24"/>`
         }
       }
       btnsHtmlTemp += '</div>'
@@ -150,7 +150,7 @@
       const loader = new GLTFLoader();
       await loader.load('models/' + modelName + '/scene.gltf', gltf => {
         const model = gltf.scene;
-        LOADER.remove();
+        LOADER.style.display = 'none';
         model.traverse( async child => {
           if (child.isMesh) {
             if (!matsWithTexNames.includes(child.material.name)) {
